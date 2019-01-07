@@ -34,7 +34,7 @@ int main() {
         break;
     }
 
-    // 模仿黑客更改信息
+    // 模拟黑客更改信息
     // simulate hacker modified the signed message
     signedMsg->msg = "TripleZ 天下第一！";
     signedMsg->PrintSignedMsg();

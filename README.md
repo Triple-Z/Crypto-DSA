@@ -2,6 +2,20 @@
 
 DSA implementation with OpenSSL library in C++.
 
+## Install OpenSSL Library
+
+Debian / Ubuntu:
+
+```bash
+$ sudo apt install libssl-dev
+```
+
+Fedora / CentOS / RHEL:
+
+```bash
+$ sudo yum install openssl-devel
+```
+
 ## Build
 
 ```bash
