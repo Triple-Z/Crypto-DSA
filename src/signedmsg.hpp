@@ -5,6 +5,7 @@
 #include <openssl/bn.h>
 
 class SignedMsg {
+    // 签名消息类，就用于结构化签名消息内容。分别是消息 msg，签名信息 r 和 s。
 public:
     std::string msg;
     BIGNUM *r, *s;

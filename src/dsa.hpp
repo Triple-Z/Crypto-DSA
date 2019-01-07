@@ -12,7 +12,9 @@
 class MyDSA {
 public:
     // allocate big numbers
+    // DSA 公钥及公开元素
     BIGNUM *p, *q, *g, *y, *h;
+    // OpenSSL 库中的错误处理机制，不用管……
     BN_CTX *ctx;
 
     MyDSA();
@@ -22,6 +24,7 @@ public:
     int PrintMyDSAInfo();
 
 private:
+    // DSA 私钥
     BIGNUM *x;
 
 };
@@ -88,6 +91,7 @@ int MyDSA::Verification(const SignedMsg *signedMsg) {
     
     BN_mod(re_cal, gu1_mul_yu2_mod_p, this->q, this->ctx);
 
+    // 比较计算结果和信息中所带签名信息，若相同即为认证。
     if (BN_cmp(re_cal, signedMsg->r) == 0) {
         // std::cout << "[✓][Verified] " << signedMsg->msg << std::endl;
         return 1;
@@ -121,6 +125,7 @@ SignedMsg * MyDSA::Signature(const std::string msg) {
         // H(m)
     BIGNUM *digest = BN_new();
     const char* msg_char = msg.c_str();
+    // 消息使用 SHA1 获取摘要
     unsigned char *digest_char = SHA1((const unsigned char*)msg_char, msg.length(), NULL); // not thread safe
     BN_bin2bn(digest_char, 20, digest);
 
@@ -155,7 +160,9 @@ MyDSA::MyDSA() {
     BIGNUM *one = BN_new();
     BN_one(one);
 
-
+    // 生成 p, q, g, x, y。
+    // p 和 q 之间的关系比较特殊，需要满足 p % q == 1 。且 p 和 q 都为素数。
+    // 其实这个要自己生成时有点复杂的，好在 OpenSSL 提供了这个功能。
     // q
     BN_generate_prime_ex(this->q, 160, true, NULL, NULL, NULL);
     // p
@@ -184,6 +191,7 @@ MyDSA::MyDSA() {
 }
 
 MyDSA::~MyDSA() {
+    // 清除分配的大数占用的内存空间，防止内存泄露。
     BN_clear_free(this->p);
     BN_clear_free(this->q);
     BN_clear_free(this->g);
