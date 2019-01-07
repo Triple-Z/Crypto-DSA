@@ -7,11 +7,12 @@ DSA implementation with OpenSSL library in C++.
 ```bash
 $ git clone https://github.com/Triple-Z/Crypto-DSA.git
 $ cd Crypto-DSA/
+$ cd src/
 $ make
 $ make run
 ```
 
-> `GNU Make` & `G++` required.
+> `OpenSSL`, `GNU Make` & `G++` required.
 
 ## Clean
 
