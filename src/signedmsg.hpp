@@ -32,7 +32,7 @@ public:
     std::string msg;
     BIGNUM *r, *s;
 
-    SignedMsg() {};
+    SignedMsg() {}
     SignedMsg(const std::string, const BIGNUM*, const BIGNUM*);
     ~SignedMsg();
 
@@ -65,6 +65,9 @@ SignedMsg::SignedMsg(const std::string msg, const BIGNUM *r, const BIGNUM *s) {
     BN_add(this->s, s, zero);
 
     this->msg = msg;
+
+    // clean and free BIGNUM instances
+    BN_clear_free(zero);
 
 }
 

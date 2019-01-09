@@ -22,11 +22,12 @@ $ sudo yum install openssl-devel
 $ git clone https://github.com/Triple-Z/Crypto-DSA.git
 $ cd Crypto-DSA/
 $ cd src/
-$ make
-$ make run
+$ make once
 ```
 
 > `OpenSSL`, `GNU Make` & `G++` required.
+> 
+> `make once` is equal to `make && make run`.
 
 ## Clean
 
@@ -44,7 +45,7 @@ $ make debug
 
 ## License
 
-```
+```license
 MIT License
 
 Copyright (c) 2019 Triple-Z<me@triplez.cn>

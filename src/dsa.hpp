@@ -112,17 +112,29 @@ int MyDSA::Verification(const SignedMsg *signedMsg) {
     BN_mod_mul(gu1_mul_yu2_mod_p, g_u1, y_u2, this->p, this->ctx);
     
     BN_mod(re_cal, gu1_mul_yu2_mod_p, this->q, this->ctx);
-
+    
+    int result = -1;
     // 比较计算结果和信息中所带签名信息，若相同即为认证。
     if (BN_cmp(re_cal, signedMsg->r) == 0) {
         // std::cout << "[✓][Verified] " << signedMsg->msg << std::endl;
-        return 1;
+        result = 1;
     } else {
         // std::cout << "[!][Unverified] " << signedMsg->msg << std::endl;
-        return 0;
+        result = 0;
     }
+
+    // clear and free all the BIGNUM instance
+    BN_clear_free(omega);
+    BN_clear_free(u1);
+    BN_clear_free(u2);
+    BN_clear_free(s_inverse);
+    BN_clear_free(digest);
+    BN_clear_free(g_u1);
+    BN_clear_free(y_u2);
+    BN_clear_free(gu1_mul_yu2_mod_p);
+    BN_clear_free(re_cal);
     
-    return -1;
+    return result;
 
 }
 
@@ -163,6 +175,15 @@ SignedMsg * MyDSA::Signature(const std::string msg) {
     BN_mod_mul(s, k_inverse, digest, this->q, this->ctx);
 
     SignedMsg *signedMsg = new SignedMsg(msg, r, s);
+
+    // Clear and free all the BIGNUM instance
+    BN_clear_free(k);
+    BN_clear_free(r);
+    BN_clear_free(g_k_mod_p);
+    BN_clear_free(s);
+    BN_clear_free(k_inverse);
+    BN_clear_free(digest);
+    BN_clear_free(xr);
 
     return signedMsg;
 
@@ -209,6 +230,11 @@ MyDSA::MyDSA() {
 
     // y = g^x mod p
     BN_mod_exp(this->y, this->g, this->x, this->p, this->ctx);
+
+    // Clear and free temporary BIGNUM instances
+    BN_clear_free(one);
+    BN_clear_free(p_minus_1);
+    BN_clear_free(p_minus_1_div_q);
 
 }
 

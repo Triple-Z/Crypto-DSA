@@ -34,6 +34,8 @@ $(OBJDIR)/%.o: %.cpp
 
 all: dsa
 
+once: all run
+
 debug: $(BINDIR)/dsa.out
 	gdb $(BINDIR)/dsa.out
 
